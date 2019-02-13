@@ -1,3 +1,5 @@
+//Cities and megacities
+
 var mydiv = document.getElementById("mydiv");
 mydiv.innerHTML = "My Table";
 
@@ -10,6 +12,8 @@ window.onload = initialize();
 //initialize function called when the script loads
 function initialize(){
     cities();
+    jQueryAjax();
+    debugAjax();
 };
 
 //function to create a table with cities and their populations
@@ -117,4 +121,58 @@ function addEvents($this){
     $('table').on('click', clickme);
 });
 };
+
+//Module 3 Ajax callback functions and geojsons
+
+//define AJAX function
+function jQueryAjax(){
+    //define a variable to hold the data
+    var mydata;
+
+    //basic jQuery ajax method
+    $.ajax("data/MegaCities_geocoded.geojson", {
+        dataType: "json",
+        success: function(response){
+            mydata = response;
+
+            //check the data
+            console.log(mydata);
+        }
+    });
+
+    //check the data - outside the function so comes back as undefined
+    console.log(mydata);
+};
+
+
+//define new function from debugging script
+function debugCallback(response){
+    mydata = response;
+    $("#mydiv").append('GeoJSON data: ' + JSON.stringify(mydata));
+};
+//define Ajax function
+function debugAjax(){
+    //define variable
+    var mydata;
+    //define a basic JQuery Ajax method
+    $.ajax("data/MegaCities_geocoded.geojson", {
+        dataType: "json",
+        //callback
+        success: function(response){
+            mydata = response;
+            //call debug function
+            debugCallback(mydata);
+        }
+    });
+//view JSON in plain text
+    $("#mydiv").append('<br>GeoJSON data:</br>' + JSON.stringify(mydata));
+};
+
+//$("#mydiv").append('GeoJSON data: ' + JSON.stringify(mydata));
+
+
+
+
+
+
 
